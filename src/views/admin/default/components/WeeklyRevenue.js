@@ -32,6 +32,7 @@ export default function WeeklyRevenue(props) {
     { bg: "secondaryGray.300" },
     { bg: "whiteAlpha.100" }
   );
+  console.log("rest", rest);
   return (
     <Card align='center' direction='column' w='100%' {...rest}>
       <Flex align='center' w='100%' px='15px' py='10px'>

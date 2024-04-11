@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // Chakra imports
 import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react";
@@ -16,6 +16,7 @@ import { RiArrowUpSFill } from "react-icons/ri";
 
 export default function DailyTraffic(props) {
   const { ...rest } = props;
+  
 
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");

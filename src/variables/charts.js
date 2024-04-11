@@ -80,7 +80,7 @@ export const barChartOptionsDailyTraffic = {
         [
           {
             offset: 0,
-            color: "#4318FF",
+            color: "rgba(242, 192, 11, 1)",
             opacity: 1,
           },
           {
@@ -107,16 +107,12 @@ export const barChartOptionsDailyTraffic = {
 
 export const barChartDataConsumption = [
   {
-    name: "PRODUCT A",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+    name: "stakings",
+    data: JSON.parse(localStorage.getItem("deshbord"))?.['weeklyStakingmodal'] ? JSON.parse(localStorage.getItem("deshbord"))['weeklyStakingmodal'] : [],
   },
   {
-    name: "PRODUCT B",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
-  },
-  {
-    name: "PRODUCT C",
-    data: [400, 370, 330, 390, 320, 350, 360, 320, 380],
+    name: "withdrawals",
+    data: JSON.parse(localStorage.getItem("deshbord"))?.['weeklyWithdrawals'] ? JSON.parse(localStorage.getItem("deshbord"))['weeklyWithdrawals'] : [],
   },
 ];
 
@@ -141,13 +137,13 @@ export const barChartOptionsConsumption = {
     theme: "dark",
   },
   xaxis: {
-    categories: ["17", "18", "19", "20", "21", "22", "23", "24", "25"],
+    categories: JSON.parse(localStorage.getItem("deshbord"))?.['Last10WeeksDates'] ? JSON.parse(localStorage.getItem("deshbord"))['Last10WeeksDates'] : [],
     show: false,
     labels: {
       show: true,
       style: {
         colors: "#A3AED0",
-        fontSize: "14px",
+        fontSize: "9px",
         fontWeight: "500",
       },
     },
@@ -210,7 +206,7 @@ export const barChartOptionsConsumption = {
 
 export const pieChartOptions = {
   labels: ["Your files", "System", "Empty"],
-  colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+  colors: ["rgba(242, 192, 11, 1)", "#6AD2FF", "#EFF4FB"],
   chart: {
     width: "50px",
   },
@@ -239,7 +235,7 @@ export const pieChartOptions = {
     },
   },
   fill: {
-    colors: ["#4318FF", "#6AD2FF", "#EFF4FB"],
+    colors: ["rgba(242, 192, 11, 1)", "#6AD2FF", "#EFF4FB"],
   },
   tooltip: {
     enabled: true,
@@ -254,11 +250,11 @@ export const pieChartData = [63, 25, 12];
 export const lineChartDataTotalSpent = [
   {
     name: "Revenue",
-    data: [50, 64, 48, 66, 49, 68],
+    data: JSON.parse(localStorage.getItem("deshbord"))?.['getLast6Months'][0] ? JSON.parse(localStorage.getItem("deshbord"))['getLast6Months'][0]['data'] : [],
   },
   {
-    name: "Profit",
-    data: [30, 40, 24, 46, 20, 46],
+    name: "withdrawals",
+    data: JSON.parse(localStorage.getItem("deshbord"))?.['getLast6Months'][0] ? JSON.parse(localStorage.getItem("deshbord"))['getLast6Months'][1]['data'] : [],
   },
 ];
 
@@ -273,10 +269,10 @@ export const lineChartOptionsTotalSpent = {
       left: 0,
       blur: 10,
       opacity: 0.1,
-      color: "#4318FF",
+      color: "rgba(242, 192, 11, 1)",
     },
   },
-  colors: ["#4318FF", "#39B8FF"],
+  colors: ["rgba(242, 192, 11, 1)", "#39B8FF"],
   markers: {
     size: 0,
     colors: "white",
@@ -304,7 +300,7 @@ export const lineChartOptionsTotalSpent = {
   },
   xaxis: {
     type: "numeric",
-    categories: ["SEP", "OCT", "NOV", "DEC", "JAN", "FEB"],
+    categories: JSON.parse(localStorage.getItem("deshbord"))?.['getLast6Month'] ? JSON.parse(localStorage.getItem("deshbord"))['getLast6Month'] : [],
     labels: {
       style: {
         colors: "#A3AED0",

@@ -1,26 +1,3 @@
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// Chakra imports
 import {
   Avatar,
   Box,
@@ -29,6 +6,7 @@ import {
   Icon,
   Select,
   SimpleGrid,
+  Spinner,
   useColorModeValue,
 } from "@chakra-ui/react";
 // Assets
@@ -37,7 +15,8 @@ import Usa from "assets/img/dashboards/usa.png";
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import {
   MdAddTask,
   MdAttachMoney,
@@ -57,114 +36,173 @@ import {
 } from "views/admin/default/variables/columnsData";
 import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
+import io from 'socket.io-client';
 
 export default function UserReports() {
   // Chakra Color Mode
+  const [data, setdata] = useState(null);
+  const [loading, setloading] = useState(false);
+  useEffect(() => {
+    getdata();
+    return () => {
+      if (data !== null) {
+        setloading(!false);
+      }
+    };
+  }, [data]);
+  useEffect(() => {
+    const socket = io("http://sirglobal.org");
+
+    socket.on("connect", () => {
+      console.log("Connected to Socket.io server");
+    });
+
+    socket.on("weeklyWithdrawals", (data) => {
+      console.log("Received weeklyWithdrawals:", data);
+    });
+
+    // Clean up the connection when component unmounts
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+  const getdata = async () => {
+    let headersList = {};
+
+    let response = await fetch(
+      "https://api.sirglobal.org/api/staking/deshbord",
+      {
+        method: "GET",
+        headers: headersList,
+      }
+    );
+
+    let data = await response.text();
+    localStorage.setItem("deshbord", data);
+    setdata(JSON.parse(data));
+  };
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
-  return (
+  console.log("data", data);
+  return !loading ? (
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+      <Spinner color="red.500" />
+    </Box>
+  ) : (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
-        gap='20px'
-        mb='20px'>
+        gap="20px"
+        mb="20px"
+      >
         <MiniStatistics
           startContent={
             <IconBox
-              w='56px'
-              h='56px'
+              w="56px"
+              h="56px"
               bg={boxBg}
               icon={
-                <Icon w='32px' h='32px' as={MdBarChart} color={brandColor} />
+                <Icon w="32px" h="32px" as={MdBarChart} color={brandColor} />
               }
             />
           }
-          name='Earnings'
-          value='$350.4'
+          name="Total investment"
+          value={"$" + data.totalStaking.totalStaking1.toFixed(2) || 0}
         />
         <MiniStatistics
           startContent={
             <IconBox
-              w='56px'
-              h='56px'
+              w="56px"
+              h="56px"
               bg={boxBg}
               icon={
-                <Icon w='32px' h='32px' as={MdAttachMoney} color={brandColor} />
+                <Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />
               }
             />
           }
-          name='Spend this month'
-          value='$642.39'
+          name="this month investment"
+          value={"$" + data.getLast6Months[0].data[5].toFixed(2) || 0}
         />
-        <MiniStatistics growth='+23%' name='Sales' value='$574.34' />
+        <MiniStatistics
+          startContent={
+            <IconBox
+              w="56px"
+              h="56px"
+              bg={boxBg}
+              icon={
+                <Icon w="32px" h="32px" as={MdBarChart} color={brandColor} />
+              }
+            />
+          }
+          name="Total withdrawal"
+          value={"$" + data.totalStaking.totalWithdrawal.toFixed(2) || 0}
+        />
+        <MiniStatistics
+          startContent={
+            <IconBox
+              w="56px"
+              h="56px"
+              bg={boxBg}
+              icon={
+                <Icon w="32px" h="32px" as={MdAttachMoney} color={brandColor} />
+              }
+            />
+          }
+          name="this month withdrawal"
+          value={"$" + data.getLast6Months[1].data[5] || 0}
+        />
         <MiniStatistics
           endContent={
-            <Flex me='-16px' mt='10px'>
-              <FormLabel htmlFor='balance'>
+            <Flex me="-20px" mt="10px">
+              <FormLabel htmlFor="balance">
                 <Avatar src={Usa} />
               </FormLabel>
-              <Select
-                id='balance'
-                variant='mini'
-                mt='5px'
-                me='0px'
-                defaultValue='usd'>
-                <option value='usd'>USD</option>
-                <option value='eur'>EUR</option>
-                <option value='gba'>GBA</option>
-              </Select>
             </Flex>
           }
-          name='Your balance'
-          value='$1,000'
+          name="Live price"
+          value={
+            "$" +
+              data?.usdtPrice?.toFixed(2) +
+              "          " +
+              `   (₹ ${data?.usdtPriceinr?.toFixed(2)})` || 0
+          }
         />
         <MiniStatistics
           startContent={
             <IconBox
-              w='56px'
-              h='56px'
-              bg='linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)'
-              icon={<Icon w='28px' h='28px' as={MdAddTask} color='white' />}
+              w="56px"
+              h="56px"
+              bg="linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)"
+              icon={<Icon w="28px" h="28px" as={MdAddTask} color="white" />}
             />
           }
-          name='New Tasks'
-          value='154'
-        />
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w='56px'
-              h='56px'
-              bg={boxBg}
-              icon={
-                <Icon w='32px' h='32px' as={MdFileCopy} color={brandColor} />
-              }
-            />
-          }
-          name='Total Projects'
-          value='2935'
+          name="Total active users"
+          value={data?.Usermodaldata1}
         />
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
-        <TotalSpent />
+      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px" mb="20px">
+        <TotalSpent
+          totalStaking1={data.totalStaking.totalStaking1.toFixed(2)}
+          thismonthtotalStaking1={data.getLast6Months[0].data[5].toFixed(2)}
+        />
         <WeeklyRevenue />
       </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
+      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <DailyTraffic />
           <PieCard />
         </SimpleGrid>
       </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
+      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         <ComplexTable
           columnsData={columnsDataComplex}
           tableData={tableDataComplex}
         />
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <Tasks />
-          <MiniCalendar h='100%' minW='100%' selectRange={false} />
+          <MiniCalendar h="100%" minW="100%" selectRange={false} />
         </SimpleGrid>
       </SimpleGrid>
     </Box>

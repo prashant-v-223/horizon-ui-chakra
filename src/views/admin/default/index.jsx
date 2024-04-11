@@ -36,22 +36,14 @@ import {
 } from "views/admin/default/variables/columnsData";
 import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
-import io from 'socket.io-client';
 
+import io from "socket.io-client";
 export default function UserReports() {
   // Chakra Color Mode
   const [data, setdata] = useState(null);
   const [loading, setloading] = useState(false);
   useEffect(() => {
-    getdata();
-    return () => {
-      if (data !== null) {
-        setloading(!false);
-      }
-    };
-  }, [data]);
-  useEffect(() => {
-    const socket = io("http://sirglobal.org");
+    const socket = io("http://localhost:8080");
 
     socket.on("connect", () => {
       console.log("Connected to Socket.io server");
@@ -59,6 +51,9 @@ export default function UserReports() {
 
     socket.on("weeklyWithdrawals", (data) => {
       console.log("Received weeklyWithdrawals:", data);
+      localStorage.setItem("deshbord", JSON.stringify(data));
+      setdata(data);
+      setloading(!false);
     });
 
     // Clean up the connection when component unmounts
@@ -66,21 +61,6 @@ export default function UserReports() {
       socket.disconnect();
     };
   }, []);
-  const getdata = async () => {
-    let headersList = {};
-
-    let response = await fetch(
-      "https://api.sirglobal.org/api/staking/deshbord",
-      {
-        method: "GET",
-        headers: headersList,
-      }
-    );
-
-    let data = await response.text();
-    localStorage.setItem("deshbord", data);
-    setdata(JSON.parse(data));
-  };
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   console.log("data", data);

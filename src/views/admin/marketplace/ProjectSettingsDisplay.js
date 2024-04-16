@@ -17,7 +17,7 @@ const ProjectSettingsDisplay = () => {
     const [editedSettings, setEditedSettings] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
-    const socket = io("http://api.sirglobal.org");
+    const socket = io("https://api.sirglobal.org");
 
     useEffect(() => {
         socket.on("getSettings", (settings) => {
@@ -48,7 +48,7 @@ const ProjectSettingsDisplay = () => {
                 "updatedSetting": editedSettings
             });
 
-            let response = await fetch("http://api.sirglobal.org/de", {
+            let response = await fetch("https://api.sirglobal.org/de", {
                 method: "POST",
                 body: bodyContent,
                 headers: headersList

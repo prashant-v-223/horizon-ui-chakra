@@ -43,7 +43,7 @@ export default function UserReports() {
   const [data, setdata] = useState(null);
   const [loading, setloading] = useState(false);
   useEffect(() => {
-    const socket = io("http://api.sirglobal.org");
+    const socket = io("https://api.sirglobal.org");
 
     socket.on("connection", () => {
       console.log("Connected to Socket.io server");

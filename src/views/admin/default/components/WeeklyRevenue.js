@@ -23,7 +23,7 @@ import io from "socket.io-client";
 export default function WeeklyRevenue(props) {
   const { ...rest } = props;
   const [data, setdata] = useState(null);
-  const socket = io("http://api.sirglobal.org");
+  const socket = io("https://api.sirglobal.org");
   useEffect(() => {
     getLastWeeksDates(socket, handleSettings);
     return () => {

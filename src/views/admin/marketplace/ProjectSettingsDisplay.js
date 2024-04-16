@@ -17,7 +17,7 @@ const ProjectSettingsDisplay = () => {
     const [editedSettings, setEditedSettings] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
-    const socket = io("http://localhost:8080");
+    const socket = io("https://api.sirglobal.org");
 
     useEffect(() => {
         socket.on("getSettings", (settings) => {

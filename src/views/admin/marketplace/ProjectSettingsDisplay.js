@@ -24,6 +24,7 @@ const ProjectSettingsDisplay = () => {
             console.log("settings11", settings);
             setEditedSettings(settings?.data);
         });
+        // Clean up the connection when component unmounts
         return () => {
             socket.disconnect();
         };

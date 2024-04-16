@@ -108,11 +108,11 @@ export const barChartOptionsDailyTraffic = {
 export const barChartDataConsumption = [
   {
     name: "stakings",
-    data: JSON.parse(localStorage.getItem("deshbord"))?.['weeklyStakingmodal'] ? JSON.parse(localStorage.getItem("deshbord"))['weeklyStakingmodal'] : [],
+    data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   },
   {
     name: "withdrawals",
-    data: JSON.parse(localStorage.getItem("deshbord"))?.['weeklyWithdrawals'] ? JSON.parse(localStorage.getItem("deshbord"))['weeklyWithdrawals'] : [],
+    data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   },
 ];
 
@@ -137,7 +137,7 @@ export const barChartOptionsConsumption = {
     theme: "dark",
   },
   xaxis: {
-    categories: JSON.parse(localStorage.getItem("deshbord"))?.['Last10WeeksDates'] ? JSON.parse(localStorage.getItem("deshbord"))['Last10WeeksDates'] : [],
+    categories: [],
     show: false,
     labels: {
       show: true,

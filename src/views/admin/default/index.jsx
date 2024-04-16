@@ -43,17 +43,17 @@ export default function UserReports() {
   const [data, setdata] = useState(null);
   const [loading, setloading] = useState(false);
   useEffect(() => {
-    const socket = io("http://localhost:8080");
+    const socket = io("http://api.sirglobal.org");
 
-    socket.on("connect", () => {
+    socket.on("connection", () => {
       console.log("Connected to Socket.io server");
     });
 
-    socket.on("weeklyWithdrawals", (data) => {
+    socket.on("weeklyData", (data) => {
       console.log("Received weeklyWithdrawals:", data);
-      localStorage.setItem("deshbord", JSON.stringify(data));
-      setdata(data);
-      setloading(!false);
+        localStorage.setItem("deshbord", JSON.stringify(data));
+        setdata(data);
+        setloading(!false);
     });
 
     // Clean up the connection when component unmounts
@@ -87,7 +87,7 @@ export default function UserReports() {
             />
           }
           name="Total investment"
-          value={"$" + data.totalStaking.totalStaking1.toFixed(2) || 0}
+          value={"$" + data.totalStaking?.totalStaking1?.toFixed(2) || 0}
         />
         <MiniStatistics
           startContent={
@@ -169,7 +169,28 @@ export default function UserReports() {
         <WeeklyRevenue />
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
+        <ComplexTable
+          columnsData={[
+            {
+              Header: "NAME",
+              accessor: "Fullname",
+            },
+            {
+              Header: "NAME",
+              accessor: "PhoneNumber",
+            },
+            {
+              Header: "NAME",
+              accessor: "mystack",
+            },
+            {
+              Header: "DATE",
+              accessor: "createdAt",
+            },
+          ]}
+          tableData={data?.UsersStakedToday}
+          name={"Today Active User"}
+        />{" "}
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <DailyTraffic />
           <PieCard />
@@ -177,8 +198,26 @@ export default function UserReports() {
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         <ComplexTable
-          columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
+          columnsData={[
+            {
+              Header: "sername",
+              accessor: "userName",
+            },
+            {
+              Header: "NAME",
+              accessor: "Fullname",
+            },
+            {
+              Header: "NAME",
+              accessor: "newRank",
+            },
+            {
+              Header: "DATE",
+              accessor: "createdAt",
+            },
+          ]}
+          tableData={data?.newRankAchievements || []}
+          name={"Today New Rank Achievements"}
         />
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           <Tasks />

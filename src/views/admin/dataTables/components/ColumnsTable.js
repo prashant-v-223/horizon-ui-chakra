@@ -97,7 +97,7 @@ export default function ColumnsTable(props) {
                     data = (
                       <Flex align='center'>
                         <Text color={textColor} fontSize='sm' fontWeight='700'>
-                          {cell.value}
+                          {cell?.value}
                         </Text>
                       </Flex>
                     );
@@ -109,26 +109,26 @@ export default function ColumnsTable(props) {
                           color={textColor}
                           fontSize='sm'
                           fontWeight='700'>
-                          {cell.value}%
+                          {cell?.value}%
                         </Text>
                       </Flex>
                     );
                   } else if (cell.column.Header === "QUANTITY") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                        {cell?.value}
                       </Text>
                     );
                   } else if (cell.column.Header === "DATE") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                        {cell?.value}
                       </Text>
                     );
                   }
                   return (
                     <Td
-                      {...cell.getCellProps()}
+                      {...cell?.getCellProps()}
                       key={index}
                       fontSize={{ sm: "14px" }}
                       minW={{ sm: "150px", md: "200px", lg: "auto" }}

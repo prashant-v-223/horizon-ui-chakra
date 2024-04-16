@@ -22,7 +22,7 @@ import {
 import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
 export default function CheckTable(props) {
-  const { columnsData, tableData } = props;
+  const { columnsData, tableData, name } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
   const data = useMemo(() => tableData, [tableData]);
@@ -36,7 +36,7 @@ export default function CheckTable(props) {
     useSortBy,
     usePagination
   );
-
+  console.log("datadatadatadatadata", columns, data);
   const {
     getTableProps,
     getTableBodyProps,
@@ -61,7 +61,7 @@ export default function CheckTable(props) {
           fontSize='22px'
           fontWeight='700'
           lineHeight='100%'>
-          Check Table
+          {name}
         </Text>
         <Menu />
       </Flex>
@@ -93,48 +93,10 @@ export default function CheckTable(props) {
             return (
               <Tr {...row.getRowProps()} key={index}>
                 {row.cells.map((cell, index) => {
-                  let data = "";
-                  if (cell.column.Header === "NAME") {
-                    data = (
-                      <Flex align='center'>
-                        <Checkbox
-                          defaultChecked={cell.value[1]}
-                          colorScheme='brandScheme'
-                          me='10px'
-                        />
-                        <Text color={textColor} fontSize='sm' fontWeight='700'>
-                          {cell.value[0]}
-                        </Text>
-                      </Flex>
-                    );
-                  } else if (cell.column.Header === "PROGRESS") {
-                    data = (
-                      <Flex align='center'>
-                        <Text
-                          me='10px'
-                          color={textColor}
-                          fontSize='sm'
-                          fontWeight='700'>
-                          {cell.value}%
-                        </Text>
-                      </Flex>
-                    );
-                  } else if (cell.column.Header === "QUANTITY") {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
-                    );
-                  } else if (cell.column.Header === "DATE") {
-                    data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
-                      </Text>
-                    );
-                  }
+                  let data = cell?.value;
                   return (
                     <Td
-                      {...cell.getCellProps()}
+                      {...cell?.getCellProps()}
                       key={index}
                       fontSize={{ sm: "14px" }}
                       minW={{ sm: "150px", md: "200px", lg: "auto" }}

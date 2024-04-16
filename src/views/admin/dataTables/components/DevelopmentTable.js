@@ -100,13 +100,13 @@ export default function DevelopmentTable(props) {
                   if (cell.column.Header === "NAME") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                        {cell?.value}
                       </Text>
                     );
                   } else if (cell.column.Header === "TECH") {
                     data = (
                       <Flex align='center'>
-                        {cell.value.map((item, key) => {
+                        {cell?.value.map((item, key) => {
                           if (item === "apple") {
                             return (
                               <AppleLogo
@@ -143,7 +143,7 @@ export default function DevelopmentTable(props) {
                   } else if (cell.column.Header === "DATE") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                        {cell?.value}
                       </Text>
                     );
                   } else if (cell.column.Header === "PROGRESS") {
@@ -154,21 +154,21 @@ export default function DevelopmentTable(props) {
                           color={textColor}
                           fontSize='sm'
                           fontWeight='700'>
-                          {cell.value}%
+                          {cell?.value}%
                         </Text>
                         <Progress
                           variant='table'
                           colorScheme='brandScheme'
                           h='8px'
                           w='63px'
-                          value={cell.value}
+                          value={cell?.value}
                         />
                       </Flex>
                     );
                   }
                   return (
                     <Td
-                      {...cell.getCellProps()}
+                      {...cell?.getCellProps()}
                       key={index}
                       fontSize={{ sm: "14px" }}
                       minW={{ sm: "150px", md: "200px", lg: "auto" }}

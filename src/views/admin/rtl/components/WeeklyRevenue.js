@@ -34,7 +34,7 @@ export default function WeeklyRevenue(props) {
   );
   return (
     <Card align='center' direction='column' w='100%' {...rest}>
-      <Flex align='center' w='100%' px='15px' py='10px'>
+      {/* <Flex align='center' w='100%' px='15px' py='10px'>
         <Text
           me='auto'
           color={textColor}
@@ -57,7 +57,7 @@ export default function WeeklyRevenue(props) {
           {...rest}>
           <Icon as={MdBarChart} color={iconColor} w='24px' h='24px' />
         </Button>
-      </Flex>
+      </Flex> */}
 
       <Box h='240px' mt='auto'>
         <BarChart

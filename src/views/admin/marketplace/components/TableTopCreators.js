@@ -96,7 +96,7 @@ function TopCreatorTable(props) {
                       data = (
                         <Flex align='center'>
                           <Avatar
-                            src={cell.value[1]}
+                            src={cell?.value[1]}
                             w='30px'
                             h='30px'
                             me='8px'
@@ -105,7 +105,7 @@ function TopCreatorTable(props) {
                             color={textColor}
                             fontSize='sm'
                             fontWeight='600'>
-                            {cell.value[0]}
+                            {cell?.value[0] || "-"}
                           </Text>
                         </Flex>
                       );
@@ -115,7 +115,7 @@ function TopCreatorTable(props) {
                           color={textColorSecondary}
                           fontSize='sm'
                           fontWeight='500'>
-                          {cell.value}
+                          {cell?.value}
                         </Text>
                       );
                     } else if (cell.column.Header === "Rating") {
@@ -124,14 +124,14 @@ function TopCreatorTable(props) {
                           <Progress
                             variant='table'
                             colorScheme='brandScheme'
-                            value={cell.value}
+                            value={cell?.value}
                           />
                         </Box>
                       );
                     }
                     return (
                       <Td
-                        {...cell.getCellProps()}
+                        {...cell?.getCellProps()}
                         key={index}
                         fontSize={{ sm: "14px" }}
                         minW={{ sm: "150px", md: "200px", lg: "auto" }}

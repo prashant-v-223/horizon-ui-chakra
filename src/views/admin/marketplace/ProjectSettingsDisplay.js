@@ -17,13 +17,14 @@ const ProjectSettingsDisplay = () => {
     const [editedSettings, setEditedSettings] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
-    const socket = io("https://api.sirglobal.org");
+    const socket = io("http://localhost:8080");
 
     useEffect(() => {
         socket.on("getSettings", (settings) => {
             console.log("settings11", settings);
             setEditedSettings(settings?.data);
         });
+        socket.emit("FromAPI", "settings");
         // Clean up the connection when component unmounts
         return () => {
             socket.disconnect();

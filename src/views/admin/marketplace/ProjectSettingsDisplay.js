@@ -25,6 +25,9 @@ const ProjectSettingsDisplay = () => {
             setEditedSettings(settings?.data);
         });
         socket.emit("FromAPI", "settings");
+        socket.on("FromAPI", (settings) => {
+            console.log("settings", settings);
+        });
         // Clean up the connection when component unmounts
         return () => {
             socket.disconnect();

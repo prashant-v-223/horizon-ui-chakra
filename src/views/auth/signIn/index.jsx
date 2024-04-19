@@ -47,7 +47,7 @@ function SignIn({ authenticated, setAuthenticated }) {
   const handleSignIn = async () => {
     try {
       const response = await axios.post(
-        "https://api.sirglobal.orgapi/adminlogin/login",
+        "https://api.sirglobal.org/api/adminlogin/login",
         { email, password }
       );
       const { token } = response.data;

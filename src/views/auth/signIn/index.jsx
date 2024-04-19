@@ -17,8 +17,9 @@ import {
 } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import {  Redirect } from 'react-router-dom';
 import { RiEyeCloseLine } from "react-icons/ri";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 function SignIn({ authenticated, setAuthenticated }) {
   const history = useHistory(); // Get the history object from React Router
@@ -53,7 +54,7 @@ function SignIn({ authenticated, setAuthenticated }) {
       const { token } = response.data;
       console.log("token", token);
       localStorage.setItem("token", token);
-      history.push("/admin/dashboard");
+      <Redirect to="/admin/dashboard" />;
     } catch (error) {
       console.log("errorerror", error.message);
       alert("Sign In Failed!");

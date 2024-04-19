@@ -54,8 +54,6 @@ function SignIn({ authenticated, setAuthenticated }) {
       console.log("token", token);
       localStorage.setItem("token", token);
       history.push("/admin/dashboard");
-      // setAuthenticated(true);
-      alert("Sign In Successful!");
     } catch (error) {
       console.log("errorerror", error.message);
       alert("Sign In Failed!");

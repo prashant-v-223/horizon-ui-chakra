@@ -25,12 +25,14 @@ const ProjectSettingsDisplay = () => {
             setEditedSettings(settings?.data);
         });
 
+        // socket.emit("getSettings", () => {
+        //     return editedSettings
+        // });
         // Clean up the connection when component unmounts
         return () => {
             socket.disconnect();
         };
     }, []);
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setEditedSettings((prevSettings) => ({
@@ -38,7 +40,6 @@ const ProjectSettingsDisplay = () => {
             [name]: value,
         }));
     };
-
     const handleSave = async () => {
         try {
             let headersList = {
@@ -131,6 +132,7 @@ const ProjectSettingsDisplay = () => {
                     />
                 </ListItem>
             </List>
+
             <Button onClick={handleSave}>Save</Button>
         </Box>
     );

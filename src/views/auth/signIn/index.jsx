@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import {  Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import { RiEyeCloseLine } from "react-icons/ri";
 import { useHistory } from "react-router-dom";
 

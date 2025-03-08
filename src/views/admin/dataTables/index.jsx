@@ -1,26 +1,3 @@
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-// Chakra imports
 import { Box, SimpleGrid } from "@chakra-ui/react";
 import ComplexTable from "views/admin/dataTables/components/ComplexTable";
 import React, { useEffect, useState } from "react";
@@ -28,56 +5,82 @@ import axios from "axios";
 
 export default function Settings() {
   const [data, setData] = useState([]);
-  useEffect(async () => {
-    let headersList = {
-      Accept: "*/*",
-      "Content-Type": "multipart/form-data",
-      Authorization: "Bearer ",
+
+  // Fetching the order data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      let headersList = {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        Authorization: "Bearer YOUR_AUTH_TOKEN", // Replace with your actual token
+      };
+
+      const reqOptions = {
+        url: "https://b-e-production.up.railway.app/api/v1/orders", // URL changed to orders endpoint
+        method: "GET",
+        headers: headersList,
+      };
+
+      try {
+        const response = await axios.request(reqOptions);
+        setData(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
-    let formdata = new FormData();
-
-    let bodyContent = formdata;
-
-    let reqOptions = {
-      url: "https://b-e-production.up.railway.app/api/v1/products",
-      method: "GET",
-      headers: headersList,
-      data: bodyContent,
-    };
-
-    let response = await axios.request(reqOptions);
-    setData(response.data.data);
+    fetchData();
   }, []);
 
-  // Chakra Color Mode
+  // Function to format the date for readability
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Adjust this based on the desired format
+  };
+
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }} mt="40px">
-      <SimpleGrid
-        mt="10px"
-        spacing={{ base: "20px", xl: "20px" }}
-      >
+      <SimpleGrid mt="10px" spacing={{ base: "20px", xl: "20px" }}>
         <ComplexTable
           columnsData={[
             {
-              Header: "NAME",
-              accessor: "name",
+              Header: "Customer ID",
+              accessor: "customer", // Assuming customer is an object with its own ID
+              Cell: ({ value }) => value.$oid, // Extracting the ObjectId
             },
             {
-              Header: "Price",
-              accessor: "price",
+              Header: "Payment Type",
+              accessor: "paymentType",
             },
             {
-              Header: "discountPercent",
-              accessor: "discountPercent",
+              Header: "Delivery Type",
+              accessor: "deliveryType",
             },
             {
-              Header: "description",
-              accessor: "description",
-            },
-            {
-              Header: "DATE",
+              Header: "Created At",
               accessor: "createdAt",
+              Cell: ({ value }) => formatDate(value), // Format the date
+            },
+            {
+              Header: "Updated At",
+              accessor: "updatedAt",
+              Cell: ({ value }) => formatDate(value), // Format the date
+            },
+            {
+              Header: "Products",
+              accessor: "products",
+              Cell: ({ value }) => {
+                // Displaying the list of products, if any
+                return value.length ? (
+                  <ul>
+                    {value.map((product, index) => (
+                      <li key={index}>{product}</li> // Assuming products are just strings
+                    ))}
+                  </ul>
+                ) : (
+                  "No products"
+                );
+              },
             },
           ]}
           tableData={data}

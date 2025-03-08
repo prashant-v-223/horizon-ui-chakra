@@ -15,19 +15,19 @@ import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/dataTables";
 import RTL from "views/admin/rtl";
-
+import OrderTables from "views/admin/dataTables/order/index1";
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
 import CategoryForm from "views/admin/marketplace/CategoryForm";
 
 const routes = [
-  {
-    name: "Main Dashboard",
-    layout: "/admin",
-    path: "/dashboard",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: MainDashboard,
-  },
+  // {
+  //   name: "Main Dashboard",
+  //   layout: "/admin",
+  //   path: "/dashboard",
+  //   icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
+  //   component: MainDashboard,
+  // },
   {
     name: "Product From",
     layout: "/admin",
@@ -55,7 +55,7 @@ const routes = [
         color='inherit'
       />
     ),
-    component: DataTables,
+    component: OrderTables,
     secondary: true,
   },
    {
@@ -74,10 +74,10 @@ const routes = [
     secondary: true,
   },
   {
-    name: "Data Tables",
+    name: "Order",
     layout: "/admin",
     icon: <Icon as={MdBarChart} width='20px' height='20px' color='inherit' />,
-    path: "/data-tables",
+    path: "/order-tables",
     component: DataTables,
   },
   {
@@ -93,13 +93,6 @@ const routes = [
     path: "/default",
     icon: <Icon as={MdLock} width='20px' height='20px' color='inherit' />,
     component: SignInCentered,
-  },
-  {
-    name: "RTL Admin",
-    layout: "/rtl",
-    path: "/rtl-default",
-    icon: <Icon as={MdHome} width='20px' height='20px' color='inherit' />,
-    component: RTL,
   },
 ];
 

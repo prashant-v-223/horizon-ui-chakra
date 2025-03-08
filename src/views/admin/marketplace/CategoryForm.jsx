@@ -81,6 +81,10 @@ function Settings() {
               accessor: "parent",
             },
             {
+              Header: "images",
+              accessor: "images",
+            },
+            {
               Header: "DATE",
               accessor: "createdAt",
             },

@@ -139,7 +139,7 @@ const CategoryForm = () => {
       );
 
       if (response.status === 201 || response.status === 200) {
-        alert("Product added successfully!");
+        window.location.reload();
       } else {
         // showToast("error!", "red");
         alert("error!");

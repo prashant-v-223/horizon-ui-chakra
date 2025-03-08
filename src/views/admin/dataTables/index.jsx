@@ -41,7 +41,6 @@ export default function Settings() {
   // Function to handle delete or edit actions
   const handleAction = async (actionType, orderId) => {
     try {
-
       console.log("actionType, orderId", { actionType, orderId });
 
       // const url = `https://b-e-production.up.railway.app/api/v1/orders/${orderId}`;
@@ -159,7 +158,7 @@ export default function Settings() {
             },
           ]}
           tableData={data}
-          apiEndpoint="https://b-e-production.up.railway.app/order"
+          apiEndpoint="https://b-e-production.up.railway.app/api/v1/orders"
         />
       </SimpleGrid>
     </Box>

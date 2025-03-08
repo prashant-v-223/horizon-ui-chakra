@@ -33,12 +33,12 @@ import {
   useColorModeValue,
   SimpleGrid,
 } from "@chakra-ui/react";
-import ProjectSettingsDisplay from "./ProjectSettingsDisplay";
+import ProductForm from "./ProductForm";
 
 export default function Marketplace() {
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
-      <ProjectSettingsDisplay />
+      <ProductForm />
     </Box>
   );
 }

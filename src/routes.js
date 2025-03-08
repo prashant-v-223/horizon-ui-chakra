@@ -18,6 +18,7 @@ import RTL from "views/admin/rtl";
 
 // Auth Imports
 import SignInCentered from "views/auth/signIn";
+import CategoryForm from "views/admin/marketplace/CategoryForm";
 
 const routes = [
   {
@@ -28,9 +29,9 @@ const routes = [
     component: MainDashboard,
   },
   {
-    name: "Project Settings",
+    name: "Product From",
     layout: "/admin",
-    path: "/nft-marketplace",
+    path: "/productfrom",
     icon: (
       <Icon
         as={MdOutlineShoppingCart}
@@ -40,6 +41,36 @@ const routes = [
       />
     ),
     component: NFTMarketplace,
+    secondary: true,
+  },
+  {
+    name: "Product Data",
+    layout: "/admin",
+    path: "/productdata",
+    icon: (
+      <Icon
+        as={MdOutlineShoppingCart}
+        width='20px'
+        height='20px'
+        color='inherit'
+      />
+    ),
+    component: DataTables,
+    secondary: true,
+  },
+   {
+    name: "Category From",
+    layout: "/admin",
+    path: "/category",
+    icon: (
+      <Icon
+        as={MdOutlineShoppingCart}
+        width='20px'
+        height='20px'
+        color='inherit'
+      />
+    ),
+    component: CategoryForm,
     secondary: true,
   },
   {

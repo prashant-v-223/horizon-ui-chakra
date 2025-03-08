@@ -8,21 +8,18 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  Button,
 } from "@chakra-ui/react";
 import React, { useMemo } from "react";
-import {
-  useGlobalFilter,
-  usePagination,
-  useSortBy,
-  useTable,
-} from "react-table";
+import { useGlobalFilter, usePagination, useSortBy, useTable } from "react-table";
+import axios from "axios";
 
 // Custom components
 import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
 
 export default function CheckTable(props) {
-  const { columnsData, tableData, name } = props;
+  const { columnsData, tableData, name, apiEndpoint } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
   const data = useMemo(() => tableData, [tableData]);
@@ -36,7 +33,7 @@ export default function CheckTable(props) {
     useSortBy,
     usePagination
   );
-  
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -45,11 +42,39 @@ export default function CheckTable(props) {
     prepareRow,
     initialState,
   } = tableInstance;
-  
+
   initialState.pageSize = 50;
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+
+  // API call for action (like deleting a product)
+  const handleAction = async (actionType, productId) => {
+    try {
+      let response;
+
+      console.log("actionType", apiEndpoint);
+      console.log("actionType", productId);
+
+
+      if (actionType === "delete") {
+        // Make DELETE API call
+        response = await axios.delete(`${apiEndpoint}/${productId}`);
+      } else if (actionType === "edit") {
+        // Handle the edit logic here (just an example)
+        response = await axios.put(`${apiEndpoint}/${productId}`, {
+          // Sample data to be edited
+          name: "Updated Product",
+        });
+      }
+
+      window.location.reload();
+      console.log(`${actionType} successful`, response.data);
+      // Here you can also update your tableData state if necessary
+    } catch (error) {
+      console.error(`${actionType} failed`, error);
+    }
+  };
 
   return (
     <Card
@@ -86,6 +111,12 @@ export default function CheckTable(props) {
                   </Flex>
                 </Th>
               ))}
+              {/* Add a column for action buttons */}
+              <Th borderColor={borderColor} pe="10px">
+                <Flex justify="center" align="center" fontSize="12px">
+                  Actions
+                </Flex>
+              </Th>
             </Tr>
           ))}
         </Thead>
@@ -98,7 +129,6 @@ export default function CheckTable(props) {
                 {row.cells.map((cell, index) => {
                   const data = cell?.value;
 
-                  // If the column is for images, render the images
                   if (cell.column.id === "images") {
                     const images = [
                       row.original.image1,
@@ -154,6 +184,25 @@ export default function CheckTable(props) {
                     </Td>
                   );
                 })}
+
+                {/* Add action buttons */}
+                <Td borderColor="transparent" textAlign="center">
+                  <Button
+                    colorScheme="red"
+                    size="sm"
+                    onClick={() => handleAction("delete", row.original._id)}
+                    mr={2}
+                  >
+                    Delete
+                  </Button>
+                  {/* <Button
+                    colorScheme="blue"
+                    size="sm"
+                    onClick={() => handleAction("edit", row.original._id)}
+                  >
+                    Edit
+                  </Button> */}
+                </Td>
               </Tr>
             );
           })}

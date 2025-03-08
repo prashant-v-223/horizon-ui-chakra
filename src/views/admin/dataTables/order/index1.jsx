@@ -106,6 +106,7 @@ export default function Settings() {
               },
             },
           ]}
+          apiEndpoint="https://b-e-production.up.railway.app/api/v1/products"
           tableData={data}
         />
       </SimpleGrid>

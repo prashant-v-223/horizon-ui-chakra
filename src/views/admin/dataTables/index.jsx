@@ -1,4 +1,4 @@
-import { Box, SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid, Button } from "@chakra-ui/react";
 import ComplexTable from "views/admin/dataTables/components/ComplexTable";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -36,6 +36,53 @@ export default function Settings() {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString(); // Adjust this based on the desired format
+  };
+
+  // Function to handle delete or edit actions
+  const handleAction = async (actionType, orderId) => {
+    try {
+
+      console.log("actionType, orderId", { actionType, orderId });
+
+      // const url = `https://b-e-production.up.railway.app/api/v1/orders/${orderId}`;
+
+      // if (actionType === "delete") {
+      //   response = await axios.delete(url, {
+      //     headers: {
+      //       Accept: "*/*",
+      //       "Content-Type": "application/json",
+      //       Authorization: "Bearer YOUR_AUTH_TOKEN", // Replace with your actual token
+      //     },
+      //   });
+      //   // After successful deletion, remove the item from the local data
+      //   setData((prevData) => prevData.filter((item) => item.id !== orderId));
+      // } else if (actionType === "edit") {
+      //   // Example of editing (you can customize this based on your requirements)
+      //   response = await axios.put(
+      //     url,
+      //     { paymentType: "Updated Payment Type" }, // Example update data
+      //     {
+      //       headers: {
+      //         Accept: "*/*",
+      //         "Content-Type": "application/json",
+      //         Authorization: "Bearer YOUR_AUTH_TOKEN",
+      //       },
+      //     }
+      //   );
+      //   // Update the data in state after successful edit (customize as needed)
+      //   setData((prevData) =>
+      //     prevData.map((item) =>
+      //       item.id === orderId
+      //         ? { ...item, paymentType: "Updated Payment Type" }
+      //         : item
+      //     )
+      //   );
+      // }
+
+      // console.log(`${actionType} successful`, response.data);
+    } catch (error) {
+      console.error(`${actionType} failed`, error);
+    }
   };
 
   return (
@@ -82,8 +129,37 @@ export default function Settings() {
                 );
               },
             },
+            {
+              Header: "Actions",
+              accessor: "id", // Assuming id is available for each row
+              Cell: ({ value }) => (
+                <div>
+                  <Button
+                    colorScheme="red"
+                    size="sm"
+                    onClick={() =>
+                      handleAction(
+                        "delete",
+                        "https://b-e-production.up.railway.app/" + value._id
+                      )
+                    }
+                    mr={2}
+                  >
+                    Delete1
+                  </Button>
+                  <Button
+                    colorScheme="blue"
+                    size="sm"
+                    onClick={() => handleAction("edit", value)}
+                  >
+                    Edit
+                  </Button>
+                </div>
+              ),
+            },
           ]}
           tableData={data}
+          apiEndpoint="https://b-e-production.up.railway.app/order"
         />
       </SimpleGrid>
     </Box>

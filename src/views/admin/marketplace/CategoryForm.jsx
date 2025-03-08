@@ -89,6 +89,7 @@ function Settings() {
               accessor: "createdAt",
             },
           ]}
+          apiEndpoint="https://b-e-production.up.railway.app/api/v1/categories"
           tableData={data}
         />
       </SimpleGrid>
@@ -194,14 +195,6 @@ const CategoryForm = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter  description"
-              />
-            </FormControl>
-            <FormControl id="description" gridColumn="span 2">
-              <FormLabel>Parent Id</FormLabel>
-              <Input
-                value={parent}
-                onChange={(e) => setparent(e.target.value)}
-                placeholder="Enter Parent Id"
               />
             </FormControl>
 
